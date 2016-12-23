@@ -1,0 +1,9 @@
+! HomeMatic Script Snippet:
+! How to execute another program from within a program
+
+! Please notice that ProgramExecute is undocumented and may be changed/removed without further notice.
+
+! It's not possible to pass parameters to the program to use it like a subroutine, 
+! in this case you may use system variables (welcome to HM script :-o)
+
+dom.GetObject("NAME_OF_YOUR_PROGRAM").ProgramExecute();
