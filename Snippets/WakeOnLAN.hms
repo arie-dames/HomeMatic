@@ -1,0 +1,25 @@
+! HomeMatic Script Snippet:
+! Wake on LAN (WOL)
+
+! Preconditions:
+! - Device (e.g. Notebook) must support Wake on LAN
+! - Wake on LAN must be enabled in BIOS, setup or similar
+! - Device must be connected via LAN cable
+
+! For details on ether-wake please see https://linux.die.net/man/8/ether-wake
+! For pros and cons of using system.Exec vs. CUx-Daemon please see http://www.elv.de/controller.aspx?cid=726&detail=50496
+
+! Option 1: Using system.Exec on HomeMatic CCU
+! Please notice that system.Exec is undocumented and may be changed/removed without further notice.
+! 00:00:00:00:00:00 must be replaced with the MAC address of the device you want to wake up
+
+string stdout;
+string stderr;
+system.Exec ("ether-wake 00:00:00:00:00:00", &stdout, &stderr);
+
+
+! Option 2: Using CUx-Deamon
+! Further information on CUx-Daemon can be found here: http://www.elv.de/controller.aspx?cid=726&detail=50496
+! 00:00:00:00:00:00 must be replaced with the MAC address of the device you want to wake up
+
+dom.GetObject("CUxD.CUX2801001:4.CMD_EXEC").State ("ether-wake 00:00:00:00:00:00");
