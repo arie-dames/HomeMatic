@@ -16,4 +16,4 @@ This is a good starting point to make yourself familiar with HomeMatic script bu
 All scripts are provided "as is" without any warranty. HomeMatic scripts may cause unexpected behaviour or damage of your HomeMatic system or any connected device. Use at your own risk!
 
 ### License
-MIT
+MIT License
