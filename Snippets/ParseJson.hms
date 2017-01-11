@@ -1,0 +1,52 @@
+! HomeMatic Script Snippet:
+! How to parse a JSON result
+
+! This is just an example how (badly) JSON results can be parsed with HomeMatic script.
+! I currently do not know a better way how to parse JSON (or even XML), if there is another 
+! (undocumented) option with HM script: please let me know ;)
+
+string jsonArray;
+string jsonObject;
+string jsonItem;
+
+boolean itemFound;
+
+
+! Use wget from CUx-Daemon to get JSON result
+! Further information on CUx-Daemon can be found here: http://www.elv.de/controller.aspx?cid=726&detail=50496
+dom.GetObject("CUxD.CUX2801001:1.CMD_SETS").State("wget --no-check-certificate -q --header 'Accept: application/json' -O - 'https://raw.githubusercontent.com/arie-dames/HomeMatic/master/Snippets/example.json'");
+dom.GetObject("CUxD.CUX2801001:1.CMD_QUERY_RET").State(1);
+jsonArray = dom.GetObject("CUxD.CUX2801001:1.CMD_RETS").State();
+
+! split objects
+foreach(jsonObject, jsonArray.Split("},")) {
+
+	! split items
+	foreach(jsonItem, jsonObject.Split(",")) {
+
+		! get key and value of each item
+		string itemKey = jsonItem.StrValueByIndex(":", 0);
+		string itemValue = jsonItem.StrValueByIndex(":", 1);
+
+		! fields must be sliced and trimmed correctly before they can used for further functionalities
+		! WriteLine("Key: [" # itemKey # "]");
+		! WriteLine("Value: [" # itemValue # "]");
+
+		! Example: Let's assume we are looking for the title of entry with Id 12 ...
+		!          Important: We must be shure that the order of id and title is right, that's working but bad and ugly :(
+
+		if ((itemFound == false) && (itemKey.Find('id') >= 0) && (itemValue.ToInteger() == 12)) {
+			itemFound = true;
+		}
+		if ((itemFound == true) && (itemKey.Find('title') >= 0)) {
+			WriteLine("Found title for entry with id 12: " # itemValue.Substr(2,itemValue.Length()-3));
+			quit;
+		}
+
+	}
+
+	if (itemFound) {
+		quit;
+	}
+
+}
