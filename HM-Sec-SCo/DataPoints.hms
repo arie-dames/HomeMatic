@@ -1,0 +1,71 @@
+! Wireless Door/Window Sensor, optical
+! HM-Sec-SCo
+
+! TECHNICAL SPECIFICATIONS:
+! Device short name: HM-Sec-SCo
+! Supply voltage: 1x 1.5 V LR03/micro/AAA
+! Current consumption: 100 mA (max.)
+! Battery life: 2 years (typ.)
+! Degree of protection: IP20
+! Ambient temperature: -20 to +55 °C
+! Radio frequency: 868.3 MHz
+! Receiver category: SRD category 2
+! Typ. open area RF range: > 100 m
+! Duty cycle: < 1 % per h
+! Dimensions (W x H x D): 15 x 100 x 18 mm
+! Weight: 30 g (incl. battery)
+
+! --------------------------------------------------------------
+
+! Enter the channel name of your HM-Sec-SCo here ...
+string channelName = "LivingRoom_Window_North:1";
+
+! --------------------------------------------------------------
+
+! Now let's check all data points availables
+var channel = dom.GetObject(channelName);
+if (channel) {
+
+	var device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-Sec-SCo")) {
+
+		WriteLine("HM-Sec-SCo - Channel ["# channelName #"]\n");
+
+		var dataPoint;
+
+		! STATE
+		dataPoint = channel.DPByHssDP("STATE");
+		if (dataPoint.Value()) {
+			WriteLine("State:\t\tOpen");
+		}
+		else {
+			WriteLine("State:\t\tClosed");
+		}
+
+		! LOWBAT
+		dataPoint = channel.DPByHssDP("LOWBAT");
+		if (dataPoint.Value()) {
+			WriteLine("Battery:\t\tLow");
+		}
+		else {
+			WriteLine("Battery:\t\tOk");
+		}
+
+		! ERROR
+		dataPoint = channel.DPByHssDP("ERROR");
+		if (dataPoint.Value() == 1) {
+			WriteLine("Error:\t\tSabotage");
+		}
+		else {
+			WriteLine("Error:\t\tNo Error");
+		}
+
+	}
+	else {
+		WriteLine("["# channelName #"] is no HM-Sec-SCo channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelName #"] could not be found.\nPlease verify configured channel name.");
+}
