@@ -1,0 +1,14 @@
+! HomeMatic Script Snippet:
+! How to acknowledge service messages
+
+! This example shows how to auto-acknowledge communication errors via HomeMatic Script
+
+string deviceId;
+object stickyDevice;
+
+foreach(deviceId, dom.GetObject(ID_DEVICES).EnumUsedIDs()) {
+	stickyDevice = dom.GetObject("AL-"# dom.GetObject(deviceId).Address() #":0.STICKY_UNREACH");
+	if (stickyDevice && stickyDevice.Value()) {
+		stickyDevice.AlReceipt();
+	}
+}
