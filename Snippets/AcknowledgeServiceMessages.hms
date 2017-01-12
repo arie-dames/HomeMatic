@@ -1,7 +1,7 @@
 ! HomeMatic Script Snippet:
 ! How to acknowledge service messages
 
-! This example shows how to auto-acknowledge communication errors via HomeMatic Script
+! This example shows how to auto-acknowledge communication errors using HomeMatic Script
 
 string deviceId;
 object stickyDevice;
