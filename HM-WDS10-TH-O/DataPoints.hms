@@ -1,0 +1,53 @@
+! Outside radio-controlled temperature humidity sensor (OTH)
+! HM-WDS10-TH-O
+
+! TECHNICAL SPECIFICATIONS:
+! Temperature range: -19.9 °C to 79.9 °C
+! Accuracy: ± 0.8°C (10-40°C)
+! Relative humidity: 1-99% rH
+! Accuracy: ± 5% rH (30-70% rH)
+! Radio frequency: 868.3 MHz
+! Typ. outdoor range: 300 m
+! Power supply: 2 x LR6 (Mignon)
+! Battery lifetime: up to 3 years
+! Protection type: IP44
+! Housing: ABS
+! Housing colors: Silver
+! Dimensions: 135 x 54 x 73 mm (H x W x D)
+! Weight: 120 g (without battery)
+
+! --------------------------------------------------------------
+
+! Enter the channel name of your HM-WDS10-TH-O here ...
+string channelName = "Weather_Garden:1";
+
+! --------------------------------------------------------------
+
+! Now let's check all data points availables
+var channel = dom.GetObject(channelName);
+if (channel) {
+
+	var device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-WDS10-TH-O")) {
+
+		WriteLine("HM-WDS10-TH-O - Channel ["# channelName #"]\n");
+
+		var dataPoint;
+
+		! TEMPERATURE
+		dataPoint = channel.DPByHssDP("TEMPERATURE");
+		WriteLine("Temperature:\t"# dataPoint.Value() #"°C");
+
+		! HUMIDITY
+		dataPoint = channel.DPByHssDP("HUMIDITY");
+		WriteLine("Humidity:\t\t "# dataPoint.Value() #"%");
+		
+	}
+	else {
+		WriteLine("["# channelName #"] is no HM-WDS10-TH-O channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelName #"] could not be found.\nPlease verify configured channel name.");
+}
