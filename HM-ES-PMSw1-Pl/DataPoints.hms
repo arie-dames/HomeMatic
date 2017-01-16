@@ -1,0 +1,249 @@
+! Wireless Switch Actuator 1-channel with power metering, plug adapter
+! HM-ES-PMSw1-Pl
+
+! TECHNICAL SPECIFICATIONS:
+! Supply voltage: 230 V/50 Hz
+! Current consumption: 16 A (max.)
+! Power consumption in standby: < 0.6 W
+! Degree of protection: IP20
+! Ambient temperature: -10 to +35 °C
+! Degree of pollution: 2
+! Measurement category: CAT II
+! Receive frequency: 868.3 MHz
+! Receiver class: SRD Class 2
+! Typ. Radio open air range: > 150 m
+! Duty cycle: < 1 % per h
+! Max. switching capacity: 3680 W (ohmic load)
+! Life expectancy relay/switching cycle: 50000 (16 A, ohmic load)
+! Relay: Shutter contact
+! Switch type: independently mounted switch
+! Operating mode: S1
+! Withstand voltage: 2500 V
+! Dimensions (W x H x D): 59 x 123 x 40 mm (not incl. mains plug)
+! Weight: 167 g
+
+! --------------------------------------------------------------
+
+! Enter the channel names of your HM-ES-PMSw1-Pl here ...
+string channelSwitch = "LivingRoom_DeskLamp:1"; ! Channel 1
+string channelPowerMeter = "LivingRoom_DeskLamp:2"; ! Channel 2
+string channelConditionPower = "LivingRoom_DeskLamp:3"; ! Channel 3
+string channelConditionCurrent = "LivingRoom_DeskLamp:4"; ! Channel 4
+string channelConditionVoltage = "LivingRoom_DeskLamp:5"; ! Channel 5
+string channelConditionFrequency = "LivingRoom_DeskLamp:6"; ! Channel 6
+
+! --------------------------------------------------------------
+
+var channel;
+var device;
+var dataPoint;
+
+! Now let's check all data points for Channel 1
+channel = dom.GetObject(channelSwitch);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("HM-ES-PMSw1-Pl - Channel ["# channelSwitch #"]\n");
+
+		! STATE
+		dataPoint = channel.DPByHssDP("STATE");
+		if (dataPoint.Value()) {
+			WriteLine("State:\t\t\tOn (Read/Write)");
+		}
+		else {
+			WriteLine("State:\t\t\tOff (Read/Write)");
+		}
+		! Switch on: dataPoint.State(1);
+		! Switch off: dataPoint.State(0);
+		
+		! ON_TIME 0.0 to 85825945.6
+		WriteLine("On time:\t\t\tn/a seconds (Write)");
+		! Set on time: dataPoint.State(120); 
+
+		! INHIBIT
+		dataPoint = channel.DPByHssDP("INHIBIT");
+		if (dataPoint.Value()) {
+			WriteLine("Inhibit:\t\t\True (Read/Write)");
+		}
+		else {
+			WriteLine("Inhibit:\t\t\tFalse (Read/Write)");
+		}
+		! Inhibit on: dataPoint.State(1);
+		! Inhibit off: dataPoint.State(0);
+
+		! WORKING
+		dataPoint = channel.DPByHssDP("WORKING");
+		if (dataPoint.Value()) {
+			WriteLine("Working:\t\t\True (Read)");
+		}
+		else {
+			WriteLine("Working:\t\t\tFalse (Read)");
+		}
+
+	}
+	else {
+		WriteLine("["# channelSwitch #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelSwitch #"] could not be found.\nPlease verify configured channel name.");
+}
+
+! --------------------------------------------------------------
+
+! Now let's check all data points for Channel 2
+channel = dom.GetObject(channelPowerMeter);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("\n\nHM-ES-PMSw1-Pl - Channel ["# channelPowerMeter #"]\n");
+
+		! BOOT
+		dataPoint = channel.DPByHssDP("BOOT");
+		if (dataPoint.Value()) {
+			WriteLine("Boot:\t\t\tTrue (Read)");
+		}
+		else {
+			WriteLine("Boot:\t\t\tFalse (Read)");
+		}
+
+		! ENERGY_COUNTER
+		dataPoint = channel.DPByHssDP("ENERGY_COUNTER");
+		WriteLine("Energy Counter:\t"# dataPoint.Value() #" Wh (Read)");
+		
+		! POWER
+		dataPoint = channel.DPByHssDP("POWER");
+		WriteLine("Power:\t\t\t"# dataPoint.Value() #" W (Read)");
+
+		! CURRENT
+		dataPoint = channel.DPByHssDP("CURRENT");
+		WriteLine("Current:\t\t\t"# dataPoint.Value() #" mA (Read)");
+
+		! VOLTAGE
+		dataPoint = channel.DPByHssDP("VOLTAGE");
+		WriteLine("Voltage:\t\t\t"# dataPoint.Value() #" V (Read)");
+
+		! FREQUENCY
+		dataPoint = channel.DPByHssDP("FREQUENCY");
+		WriteLine("Frequency:\t\t"# dataPoint.Value() #" Hz (Read)");
+
+	}
+	else {
+		WriteLine("["# channelPowerMeter #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelPowerMeter #"] could not be found.\nPlease verify configured channel name.");
+} 
+
+
+! --------------------------------------------------------------
+
+! Now let's check all data points for Channel 3
+channel = dom.GetObject(channelConditionPower);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("\n\nHM-ES-PMSw1-Pl - Channel ["# channelConditionPower #"]\n");
+
+		! DECISION_VALUE
+		dataPoint = channel.DPByHssDP("DECISION_VALUE");
+		WriteLine("Decision Value:\t\t"# dataPoint.Value() #" (Read)");
+		
+
+	}
+	else {
+		WriteLine("["# channelConditionPower #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelConditionPower #"] could not be found.\nPlease verify configured channel name.");
+} 
+
+
+! --------------------------------------------------------------
+
+! Now let's check all data points for Channel 4
+channel = dom.GetObject(channelConditionCurrent);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("\n\nHM-ES-PMSw1-Pl - Channel ["# channelConditionCurrent #"]\n");
+
+		! DECISION_VALUE
+		dataPoint = channel.DPByHssDP("DECISION_VALUE");
+		WriteLine("Decision Value:\t\t"# dataPoint.Value() #" (Read)");
+		
+
+	}
+	else {
+		WriteLine("["# channelConditionCurrent #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelConditionCurrent #"] could not be found.\nPlease verify configured channel name.");
+} 
+
+! --------------------------------------------------------------
+
+! Now let's check all data points for Channel 5
+channel = dom.GetObject(channelConditionVoltage);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("\n\nHM-ES-PMSw1-Pl - Channel ["# channelConditionVoltage #"]\n");
+
+		! DECISION_VALUE
+		dataPoint = channel.DPByHssDP("DECISION_VALUE");
+		WriteLine("Decision Value:\t\t"# dataPoint.Value() #" (Read)");
+		
+
+	}
+	else {
+		WriteLine("["# channelConditionVoltage #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelConditionVoltage #"] could not be found.\nPlease verify configured channel name.");
+} 
+
+! --------------------------------------------------------------
+
+! Now let's check all data points for Channel 6
+channel = dom.GetObject(channelConditionFrequency);
+if (channel) {
+
+	device = dom.GetObject(channel.Device());
+	if ((device.HssType()=="HM-ES-PMSw1-Pl")) {
+
+		WriteLine("\n\nHM-ES-PMSw1-Pl - Channel ["# channelConditionFrequency #"]\n");
+
+		! DECISION_VALUE
+		dataPoint = channel.DPByHssDP("DECISION_VALUE");
+		WriteLine("Decision Value:\t\t"# dataPoint.Value() #" (Read)");
+		
+
+	}
+	else {
+		WriteLine("["# channelConditionFrequency #"] is no HM-ES-PMSw1-Pl channel.\nPlease verify configured channel name.");
+	}
+
+}
+else {
+	WriteLine("Channel ["# channelConditionFrequency #"] could not be found.\nPlease verify configured channel name.");
+} 
