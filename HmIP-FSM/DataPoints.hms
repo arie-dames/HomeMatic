@@ -1,0 +1,37 @@
+! Homematic IP Wireless Actuator
+! HmIP-FSM
+
+! TECHNICAL SPECIFICATIONS:
+! Series: Homematic IP
+! Cloud integration: Alexa (separate hub required), Google Home (separate hub required)
+! Device short name: HmIP-FSM
+! Max. switching capacity: 1150 W	
+! IP rating: IP20	
+! Power supply (LOV): mains-powered	
+! Operating voltage: 230 V	
+! Data transfer (Smart Home): Wireless	
+! Frequency: 868 MHz	
+! Max. range: 130 m	
+! Mounting type: Flush mount	
+! Dimensions (W x H x D): 54 x 33 x 41 mm	
+! Data exchange: Bidirectional (bi)	
+! Features: Test function	
+! Product type: Actuator
+
+! --------------------------------------------------------------
+
+! Enter the serial number of your HmIP-FSM here ...
+string deviceSerial = "xoxoxo";
+
+! --------------------------------------------------------------
+
+! Now let's check all data points available
+
+string index;
+string dataPoints = dom.GetObject(ID_DATAPOINTS).EnumUsedNames();
+
+foreach (index, dataPoints) {
+	if ((index.StrValueByIndex(":",0).StrValueByIndex(".",1)) == deviceSerial) {
+		Write(index # ": " # dom.GetObject(index).Value() # "\n");
+	}
+}
